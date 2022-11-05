@@ -78,6 +78,9 @@ public class IdiomaController {
         if (impIdiomaService.getByNombre(dtoIdioma.getNombre()).get().getId() != id) {
             return new ResponseEntity("El nombre del idioma ya existe", HttpStatus.BAD_REQUEST);
         }
+        if (!impIdiomaService.existsIdiomaById(id)) {
+            return new ResponseEntity("El ID no existe", HttpStatus.NOT_FOUND);
+        }
         
         Idioma idioma = impIdiomaService.getById(id).get();
         

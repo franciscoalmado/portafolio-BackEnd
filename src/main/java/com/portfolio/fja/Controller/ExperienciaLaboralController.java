@@ -84,7 +84,7 @@ public class ExperienciaLaboralController {
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody DtoExperienciaLaboral dtoExperienciaLaboral) {
         if (!impExperienciaLaboralService.existsExperienciaLaboralById(id)) {
-            return new ResponseEntity("El ID no existe", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("El ID no existe", HttpStatus.NOT_FOUND);
         }
         if (impExperienciaLaboralService.getByEmpresa(dtoExperienciaLaboral.getEmpresa()).get().getId() != id && impExperienciaLaboralService.getByCargo(dtoExperienciaLaboral.getCargo()).get().getId() != id && impExperienciaLaboralService.getByPeriodo(dtoExperienciaLaboral.getPeriodo()).get().getId() != id) {
             return new ResponseEntity("La experiencia laboral ya existe", HttpStatus.BAD_REQUEST);

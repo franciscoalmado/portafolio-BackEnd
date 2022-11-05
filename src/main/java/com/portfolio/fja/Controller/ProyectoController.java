@@ -83,20 +83,23 @@ public class ProyectoController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody DtoProyecto dtoProyecto) {
-        if (StringUtils.isBlank(dtoProyecto.getNombre())) {
+        if(!impProyectoService.existsProyectoById(id)) {
+            return new ResponseEntity("El ID no existe", HttpStatus.NOT_FOUND);
+        }
+        if(StringUtils.isBlank(dtoProyecto.getNombre())) {
             return new ResponseEntity("El campo Nombre es obligatorio", HttpStatus.BAD_REQUEST);
         }
-        if (StringUtils.isBlank(dtoProyecto.getTecnologias())) {
+        if(StringUtils.isBlank(dtoProyecto.getTecnologias())) {
             return new ResponseEntity("El campo Nombre es obligatorio", HttpStatus.BAD_REQUEST);
         }
-        if (StringUtils.isBlank(dtoProyecto.getPeriodo())) {
+        if(StringUtils.isBlank(dtoProyecto.getPeriodo())) {
             return new ResponseEntity("El campo Período es obligatorio", HttpStatus.BAD_REQUEST);
         }
-        if (StringUtils.isBlank(dtoProyecto.getDescripcion())) {
+        if(StringUtils.isBlank(dtoProyecto.getDescripcion())) {
             return new ResponseEntity("El campo Descripción es obligatorio", HttpStatus.BAD_REQUEST);
         }
-        if (impProyectoService.getByNombre(dtoProyecto.getNombre()).get().getId() != id && impProyectoService.getByPeriodo(dtoProyecto.getPeriodo()).get().getId() != id) {
-            return new ResponseEntity("El nombre del proyecto ya existe", HttpStatus.BAD_REQUEST);
+        if(impProyectoService.getByNombre(dtoProyecto.getNombre()).get().getId() != id && impProyectoService.getByPeriodo(dtoProyecto.getPeriodo()).get().getId() != id) {
+            return new ResponseEntity("El proyecto ya existe", HttpStatus.BAD_REQUEST);
         }
 
         Proyecto proyecto = impProyectoService.getById(id).get();

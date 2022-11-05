@@ -84,7 +84,7 @@ public class EducacionController {
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody DtoEducacion dtoEducacion) {
         if (!impEducacionService.existsEducacionById(id)) {
-            return new ResponseEntity("El ID no existe", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("El ID no existe", HttpStatus.NOT_FOUND);
         }
         if (impEducacionService.getByInstitucion(dtoEducacion.getInstitucion()).get().getId() != id && impEducacionService.getByCarrera(dtoEducacion.getCarrera()).get().getId() != id && impEducacionService.getByPeriodo(dtoEducacion.getPeriodo()).get().getId() != id) {
             return new ResponseEntity("La educación ya existe", HttpStatus.BAD_REQUEST);
